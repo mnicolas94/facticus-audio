@@ -1,7 +1,6 @@
 ﻿﻿﻿using System;
 using System.Collections;
 using UnityEngine;
-using Utils;
 using Utils.Serializables;
 
 namespace Audio
@@ -11,7 +10,7 @@ namespace Audio
     
     
     [CreateAssetMenu(fileName = "AudioReferences", menuName = "Facticus/Audio/AudioReferences", order = 0)]
-    public class AudioReferences : ScriptableObjectSingleton<AudioReferences>
+    public class AudioReferences : ScriptableObject
     {
         [SerializeField]
         private SoundReferenceDictionary _referencedAudioClips;

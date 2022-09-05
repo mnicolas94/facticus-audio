@@ -1,14 +1,18 @@
 ﻿﻿﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+  using Utils.Attributes;
 
-namespace Audio
+  namespace Audio
 {
     [RequireComponent(typeof(Button))]
     [RequireComponent(typeof(AudioSource))]
     public class ButtonSound : MonoBehaviour
     {
         [SerializeField] private SoundReferenceEnum _soundReference;
+        
+        [SerializeField, AutoProperty(AutoPropertyMode.Asset)]
+        private AudioReferences _audioReferences;
 
         private Button _button;
         private AudioSource _audioSource;
@@ -29,7 +33,7 @@ namespace Audio
 
         private AudioClip GetAudio()
         {
-            return AudioReferences.Instance.GetAudio(_soundReference);
+            return _audioReferences.GetAudio(_soundReference);
         }
     }
 }

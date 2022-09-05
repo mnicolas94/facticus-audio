@@ -1,11 +1,14 @@
 ﻿﻿using UnityEngine;
+ using Utils.Attributes;
 
-namespace Audio
+ namespace Audio
 {
     public class AudioReferenceSource : MonoBehaviour
     {
         [SerializeField] private SoundReferenceEnum _reference;
         [SerializeField] private AudioSource _audioSource;
+        [SerializeField, AutoProperty(AutoPropertyMode.Asset)]
+        private AudioReferences _audioReferences;
         
         public bool IsPlaying => _audioSource.isPlaying;
         
@@ -17,7 +20,7 @@ namespace Audio
 
         public void Play()
         {
-            var clip = AudioReferences.Instance.GetAudio(_reference);
+            var clip = _audioReferences.GetAudio(_reference);
             if (_audioSource != null)
             {
                 _audioSource.clip = clip;
@@ -31,7 +34,7 @@ namespace Audio
         
         public void PlayOneShot()
         {
-            var clip = AudioReferences.Instance.GetAudio(_reference);
+            var clip = _audioReferences.GetAudio(_reference);
             if (_audioSource != null)
             {
                 _audioSource.PlayOneShot(clip);
