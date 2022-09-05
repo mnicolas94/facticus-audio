@@ -1,6 +1,10 @@
 {
-    "name": "com.{{COMPANY}}.{{REPOSITORY_NAME}}",
-    "references": [],
+    "name": "com.facticus.audio",
+    "rootNamespace": "",
+    "references": [
+        "GUID:c35c6d9084ba1a541868fbd8c50a585a",
+        "GUID:49b49c76ee64f6b41bf28ef951cb0e50"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

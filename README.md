@@ -1,6 +1,6 @@
-# {{FRIENDLY_NAME}}
+# Audio
 
-{{DESCRIPTION}}
+Audio utils for Unity
 
 ## License
 
