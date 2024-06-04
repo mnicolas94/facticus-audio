@@ -11,7 +11,7 @@ namespace Audio
     public class SoundReferenceDictionary : SerializableDictionary<SoundReference, SerializableAudioClipProvider>{}
     
     [CreateAssetMenu(fileName = "AudioReferences", menuName = "Facticus/Audio/AudioReferences", order = 0)]
-    public class AudioReferences : ScriptableObject
+    public class AudioSettings : ScriptableObject
     {
         [SerializeField, Obsolete] private SoundReferenceDictionary _referencedAudioClips;
 
