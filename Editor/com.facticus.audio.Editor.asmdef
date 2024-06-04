@@ -1,6 +1,10 @@
 {
     "name": "com.facticus.audio.Editor",
-    "references": [],
+    "rootNamespace": "",
+    "references": [
+        "GUID:e77e2fd758e09c240a69d04ea2ae37aa",
+        "GUID:87f0d0b9a8d159a4c94e89b339e4604a"
+    ],
     "includePlatforms": [
         "Editor"
     ],
