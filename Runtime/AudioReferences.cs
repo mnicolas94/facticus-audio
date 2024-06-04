@@ -1,31 +1,55 @@
 ﻿﻿﻿using System;
 using System.Collections;
-using UnityEngine;
-using Utils.Serializables;
+  using UnityEditor;
+  using UnityEngine;
+  using UnityEngine.Pool;
+  using Utils.Serializables;
 
 namespace Audio
 {
     [Serializable]
-    public class SoundReferenceDictionary : SerializableDictionary<SoundReferenceEnum, SerializableAudioClipProvider>{}
-    
+    public class SoundReferenceDictionary : SerializableDictionary<SoundReference, SerializableAudioClipProvider>{}
     
     [CreateAssetMenu(fileName = "AudioReferences", menuName = "Facticus/Audio/AudioReferences", order = 0)]
     public class AudioReferences : ScriptableObject
     {
-        [SerializeField]
-        private SoundReferenceDictionary _referencedAudioClips;
+        [SerializeField, Obsolete] private SoundReferenceDictionary _referencedAudioClips;
 
         [SerializeField] private AudioReferenceSource _audioSourcePrefab;
-        
-        public AudioClip GetAudio(SoundReferenceEnum reference)
+
+        private ObjectPool<AudioReferenceSource> _droppedAudiosPool;
+
+        private void OnEnable()
         {
-            var audios = _referencedAudioClips;
-            return audios[reference].GetAudioClip();
+            _droppedAudiosPool = new ObjectPool<AudioReferenceSource>(
+                OnCreateDroppedAudio,
+                OnGetDroppedAudio,
+                OnReleaseDroppedAudio);
         }
 
-        public void DropAudio(SoundReferenceEnum reference)
+        private AudioReferenceSource OnCreateDroppedAudio()
         {
-            var source = Instantiate(_audioSourcePrefab);
+            return Instantiate(_audioSourcePrefab);
+        }
+
+        private void OnGetDroppedAudio(AudioReferenceSource obj)
+        {
+            obj.gameObject.SetActive(true);
+        }
+
+        private void OnReleaseDroppedAudio(AudioReferenceSource obj)
+        {
+            obj.gameObject.SetActive(false);
+        }
+
+        public AudioClip GetAudio(SoundReference reference)
+        {
+            return reference.GetAudioClip();
+        }
+
+        public void DropAudio(SoundReference reference)
+        {
+            var source = _droppedAudiosPool.Get();
             source.Reference = reference;
             source.Play();
 
@@ -36,36 +60,48 @@ namespace Audio
                     yield return null;
                 }
                 
-                Destroy(source.gameObject);
+                _droppedAudiosPool.Release(source);
             }
 
             source.StartCoroutine(WaitUntilFinishes());
         }
         
-        public void PlayAudio(SoundReferenceEnum reference)
+        public void PlayAudio(SoundReference reference)
         {
-            var audio = GetAudio(reference);
-            AudioSource.PlayClipAtPoint(audio, Vector3.zero, 1);
+            reference.PlayAudio();
         }
         
-        public void PlayAudio(SoundReferenceEnum reference, Vector3 position)
+        public void PlayAudio(SoundReference reference, Vector3 position)
         {
-            var audio = GetAudio(reference);
-            AudioSource.PlayClipAtPoint(audio, position, 1);
+            reference.PlayAudio(position);
         }
         
-        public void PlayAudio(SoundReferenceEnum reference, AudioSource source)
+        public void PlayAudio(SoundReference reference, AudioSource source)
         {
-            var audio = GetAudio(reference);
-            source.PlayOneShot(audio);
+            reference.PlayAudio(source);
         }
+
+#if UNITY_EDITOR
+        [ContextMenu("Migrate from v0.1.2")]
+        private void Migrate012()
+        {
+            foreach (var (reference, provider) in _referencedAudioClips)
+            {
+                reference.Provider = provider.Provider;
+                EditorUtility.SetDirty(reference);
+            }
+            AssetDatabase.SaveAssets();
+        }
+#endif
     }
 
     [Serializable]
     public class SerializableAudioClipProvider : IAudioClipProvider
     {
         [SerializeReference, SubclassSelector] private IAudioClipProvider _provider;
-        
+
+        public IAudioClipProvider Provider => _provider;
+
         public AudioClip GetAudioClip()
         {
             return _provider.GetAudioClip();
