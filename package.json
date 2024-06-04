@@ -1,6 +1,6 @@
 {
   "name": "com.facticus.audio",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "displayName": "Audio",
   "description": "Audio utils for Unity",
   "unity": "2021.3",
