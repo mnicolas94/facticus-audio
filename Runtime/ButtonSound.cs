@@ -23,13 +23,7 @@ using UnityEngine.UI;
 
         private void PlayAudio()
         {
-            var audioClip = GetAudio();
-            _audioSource.PlayOneShot(audioClip);
-        }
-
-        private AudioClip GetAudio()
-        {
-            return _soundReference.GetAudioClip();
+            _soundReference.PlayAudio(_audioSource);
         }
     }
 }

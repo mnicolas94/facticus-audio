@@ -42,11 +42,6 @@ namespace Audio
             obj.gameObject.SetActive(false);
         }
 
-        public AudioClip GetAudio(SoundReference reference)
-        {
-            return reference.GetAudioClip();
-        }
-
         public void DropAudio(SoundReference reference)
         {
             var source = _droppedAudiosPool.Get();

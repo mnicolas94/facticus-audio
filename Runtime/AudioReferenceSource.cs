@@ -17,29 +17,19 @@
 
         public void Play()
         {
-            var clip = _reference.GetAudioClip();
             if (_audioSource != null)
             {
-                _audioSource.clip = clip;
-                _audioSource.Play();
+                _reference.PlayAudio(_audioSource);
             }
             else
             {
-                AudioSource.PlayClipAtPoint(clip, transform.position);
+                _reference.PlayAudio(transform.position);
             }
         }
         
         public void PlayOneShot()
         {
-            var clip = _reference.GetAudioClip();
-            if (_audioSource != null)
-            {
-                _audioSource.PlayOneShot(clip);
-            }
-            else
-            {
-                AudioSource.PlayClipAtPoint(clip, transform.position);
-            }
+            Play();
         }
 
         public void Stop()

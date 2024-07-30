@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Audio
 {
     [CreateAssetMenu(fileName = "SoundReference", menuName = "Facticus/Audio/SoundReference", order = 0)]
-    public class SoundReference : ScriptableObject, IAudioClipProvider
+    public class SoundReference : ScriptableObject
     {
         [SerializeReference, SubclassSelector] private IAudioClipProvider _provider;
 
@@ -14,7 +14,7 @@ namespace Audio
             set => _provider = value;
         }
         
-        public AudioClip GetAudioClip()
+        private AudioClip GetAudioClip()
         {
             return _provider.GetAudioClip();
         }
