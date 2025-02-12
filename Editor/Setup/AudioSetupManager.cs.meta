@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 251958a9949d4110b317f0c798f45329
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - audioMixer: {fileID: 24100000, guid: f322ad0cb42ef234db18afe5d6e6769a, type: 2}
+  - musicPrefabTemplate: {fileID: 7335947974341565748, guid: 2c963b70ddc7be04cb0cd3ee36292a8f, type: 3}
+  - voicePrefabTemplate: {fileID: 8148527064414243285, guid: 75d0382bf021a4042b15d2074254084c, type: 3}
+  - sfxPrefabTemplate: {fileID: 2290656358466669799, guid: 88202db0f0fd9b5469de1f0845e31b81, type: 3}
+  - environmentPrefabTemplate: {fileID: 6912372424727159496, guid: b7d65cc08c6d95a4f9e7c7ae273e0a7e, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
