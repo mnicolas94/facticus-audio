@@ -91,7 +91,7 @@ namespace Audio
     }
 
     [Serializable]
-    public class SerializableAudioClipProvider : IAudioClipProvider
+    public class SerializableAudioClipProvider
     {
         [SerializeReference, SubclassSelector] private IAudioClipProvider _provider;
 
