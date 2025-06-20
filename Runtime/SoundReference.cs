@@ -66,7 +66,12 @@ namespace Audio
 
         private void DisposeAudioSource(AudioSource audioSource)
         {
+            if (!audioSource || !audioSource.gameObject)
+            {
+                return;
+            }
             var gameObject = audioSource.gameObject;
+   
             if (!Application.isPlaying)
             {
                 DestroyImmediate(gameObject);
@@ -89,8 +94,11 @@ namespace Audio
             audioSource.volume = volume;
             audioSource.Play();
             var timeToDestroy = clip.length * (Time.timeScale < 0.01f ? 0.01f : Time.timeScale);
-            await AsyncUtils.Delay(timeToDestroy, _cts.Token);
+            var ct = _cts.Token;
+            await AsyncUtils.Delay(timeToDestroy, ct);
 
+            if (ct.IsCancellationRequested) return;
+            
             DisposeAudioSource(audioSource);
         }
         
